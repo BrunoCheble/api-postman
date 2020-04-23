@@ -27,7 +27,7 @@ class SendEmailService {
         },
         error => {
           if (error) {
-            throw new AppError(error.message, 401);
+            console.log(error.message);
           } else {
             this.emails = emails;
           }
