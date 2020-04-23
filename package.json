@@ -9,8 +9,8 @@
     "test": "jest",
     "production": "node dist/server.js",
     "build-ts": "tsc",
-    "postinstall": "npm run build-ts",
-    "start": "npm run serve",
+    "postinstall": "run build-ts",
+    "start": "run serve",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch-ts": "tsc -w"
