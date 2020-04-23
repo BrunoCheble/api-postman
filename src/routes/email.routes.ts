@@ -1,16 +1,17 @@
 import { Router } from 'express';
-// import SendEmailService from '../services/SendEmailService';
+import SendEmailService from '../services/SendEmailService';
 
 const emailRouter = Router();
 
-emailRouter.get('/', (request, response) => {
-  try {
-    // const sendEmailService = new SendEmailService();
+emailRouter.get('/', async (request, response) => {
+  return response.json({ message: 'estou aqui' });
+});
 
-    return response.json({ message: 'estou aqui' });
-  } catch (err) {
-    return response.status(400).json({ error: err.message });
-  }
+emailRouter.post('/', async (request, response) => {
+  const { emails, subject, body } = request.body;
+  const sendEmailService = new SendEmailService();
+  const sended = await sendEmailService.execute({ emails, subject, body });
+  return response.json({ sended });
 });
 
 export default emailRouter;
