@@ -4,7 +4,10 @@ import SendEmailService from '../services/SendEmailService';
 const emailRouter = Router();
 
 emailRouter.get('/', async (request, response) => {
-  return response.json({ message: 'estou aqui' });
+  return response.json({
+    message: process.env.FROMEMAIL,
+    teste: process.env.PASSEMAIL,
+  });
 });
 
 emailRouter.post('/', async (request, response) => {
