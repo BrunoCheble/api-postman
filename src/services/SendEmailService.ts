@@ -1,4 +1,4 @@
-import { createTransport } from 'nodemailer';
+import nodemailer from 'nodemailer';
 import stmp from '../config/smtp';
 import AppError from '../errors/AppError';
 
@@ -16,7 +16,13 @@ class SendEmailService {
   }
 
   public async execute({ emails, subject, body }: Request): Promise<string[]> {
-    const transporter = createTransport(stmp);
+    const transporter = nodemailer.createTransport({
+      service: process.env.SERVERMAIL,
+      auth: {
+        user: process.env.FROMEMAIL,
+        pass: process.env.PASSEMAIL,
+      },
+    });
     await new Promise(resolve => {
       transporter.sendMail(
         {
