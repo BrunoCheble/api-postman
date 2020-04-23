@@ -1,1 +1,1 @@
-web: yarn production
+web: node dist/server.js
