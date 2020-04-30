@@ -17,6 +17,7 @@
     "node": "12.7.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.6",
     "@types/express": "^4.17.5",
     "@types/jest": "^25.2.1",
     "@types/nodemailer": "^6.4.0",
@@ -37,8 +38,9 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.1.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "nodemailer": "^6.4.6"
+    "express-async-errors": "^3.1.1"
   }
 }

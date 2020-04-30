@@ -11,9 +11,14 @@ emailRouter.get('/', async (request, response) => {
 });
 
 emailRouter.post('/', async (request, response) => {
-  const { emails, subject, body } = request.body;
+  const { from = '', emails, subject, body } = request.body;
   const sendEmailService = new SendEmailService();
-  const sended = await sendEmailService.execute({ emails, subject, body });
+  const sended = await sendEmailService.execute({
+    from,
+    emails,
+    subject,
+    body,
+  });
   return response.json({ sended });
 });
 

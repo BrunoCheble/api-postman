@@ -1,8 +1,8 @@
-import { createTransport } from 'nodemailer';
-import stmp from '../config/smtp';
+import sgMail from '@sendgrid/mail';
 import AppError from '../errors/AppError';
 
 interface Request {
+  from?: string;
   emails: string[];
   subject: string;
   body: string;
@@ -15,26 +15,25 @@ class SendEmailService {
     this.emails = [];
   }
 
-  public async execute({ emails, subject, body }: Request): Promise<string[]> {
-    const transporter = createTransport(stmp);
-    await new Promise(resolve => {
-      transporter.sendMail(
-        {
-          from: stmp.auth.user,
-          to: emails,
-          subject,
-          html: `<html><body>${body}</body></html>`,
-        },
-        error => {
-          if (error) {
-            console.log(error.message);
-          } else {
-            this.emails = emails;
-          }
-          resolve();
-        },
-      );
-    });
+  public async execute({
+    from = process.env.EMAIL_FROM_DEFAULT || 'postmanbot1@gmail.com',
+    emails,
+    subject,
+    body,
+  }: Request): Promise<string[]> {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+
+    try {
+      await sgMail.send({
+        to: emails,
+        from,
+        subject,
+        html: `<html><body>${body}</body></html>`,
+      });
+      this.emails = emails;
+    } catch (err) {
+      throw new AppError('Houve um erro ao tentar enviar a mensagem.');
+    }
 
     return this.emails;
   }
