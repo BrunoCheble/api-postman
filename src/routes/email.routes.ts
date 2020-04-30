@@ -12,13 +12,13 @@ emailRouter.get('/', async (request, response) => {
 emailRouter.post('/', async (request, response) => {
   const { from, emails, subject, body } = request.body;
   const sendEmailService = new SendEmailService();
-  const sended = await sendEmailService.execute({
+  const sent_emails = await sendEmailService.execute({
     from,
     emails,
     subject,
     body,
   });
-  return response.json({ sended });
+  return response.json({ sent_emails });
 });
 
 export default emailRouter;
