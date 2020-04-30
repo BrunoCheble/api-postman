@@ -16,12 +16,13 @@ class SendEmailService {
   }
 
   public async execute({
-    from = process.env.EMAIL_FROM_DEFAULT || 'postmanbot1@gmail.com',
+    from = process.env.EMAIL_FROM_DEFAULT || '',
     emails,
     subject,
     body,
   }: Request): Promise<string[]> {
     const apikey = process.env.SENDGRID_API_KEY || '';
+
     sgMail.setApiKey(apikey);
 
     try {
@@ -33,6 +34,7 @@ class SendEmailService {
       });
       this.emails = emails;
     } catch (err) {
+      console.log(err);
       throw new AppError('Houve um erro ao tentar enviar a mensagem.');
     }
 

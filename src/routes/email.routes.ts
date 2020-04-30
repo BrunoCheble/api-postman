@@ -5,13 +5,12 @@ const emailRouter = Router();
 
 emailRouter.get('/', async (request, response) => {
   return response.json({
-    message: process.env.FROMEMAIL,
-    teste: process.env.PASSEMAIL,
+    message: process.env.EMAIL_FROM_DEFAULT,
   });
 });
 
 emailRouter.post('/', async (request, response) => {
-  const { from = '', emails, subject, body } = request.body;
+  const { from, emails, subject, body } = request.body;
   const sendEmailService = new SendEmailService();
   const sended = await sendEmailService.execute({
     from,
