@@ -21,7 +21,8 @@ class SendEmailService {
     subject,
     body,
   }: Request): Promise<string[]> {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+    const apikey = process.env.SENDGRID_API_KEY || '';
+    sgMail.setApiKey(apikey);
 
     try {
       await sgMail.send({
