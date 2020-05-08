@@ -34,7 +34,9 @@ class SendEmailService {
       });
       this.emails = emails;
     } catch (err) {
-      console.log(err);
+      console.log(from);
+      console.log(apikey);
+      console.log(err.response.body);
       throw new AppError('Houve um erro ao tentar enviar a mensagem.');
     }
 
