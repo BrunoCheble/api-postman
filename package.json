@@ -11,11 +11,10 @@
     "start": "node -r ts-node/register -r tsconfig-paths/register dist/shared/infra/http/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch-ts": "tsc -w",
-    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpileOnly --ignore-watch node_modules src/shared/infra/http/server.ts"
   },
   "engines": {
-    "node": "12.7.0",
+    "node": "15.14.0",
     "npm": "6.10.0"
   },
   "dependencies": {
