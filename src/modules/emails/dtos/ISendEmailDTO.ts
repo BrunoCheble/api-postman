@@ -7,6 +7,6 @@ export default interface ISendEmailDTO {
   to: string[] | string;
   subject: string;
   body: string;
-  application: string;
-  created_by: string;
+  application?: string;
+  created_by?: string;
 }

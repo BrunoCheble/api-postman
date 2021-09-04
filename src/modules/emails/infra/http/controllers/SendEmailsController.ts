@@ -1,36 +1,35 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import SendEmailService from '@modules/emails/services/SendEmailService';
-/*
-import multer from 'multer';
-import SendEmailService from '../services/SendEmailService';
-import uploadConfig from '../config/upload';
-*/
+import SendLogService from '@modules/emails/services/SendLogService';
+
 export default class SendEmailsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const {
+      from,
       to,
       subject,
       body,
       application = 'Localhost',
       created_by = 'Me',
     } = request.body;
-    /*
-    const files =
-      request.files && !Array.isArray(request.files)
-        ? request.files.attachments
-        : request.files;
-    */
-    const sendEmail = container.resolve(SendEmailService);
 
-    const emails = await sendEmail.execute({
+    const sendEmail = container.resolve(SendEmailService);
+    const data = {
+      from,
       application,
       body,
       created_by,
       subject,
       to,
-    });
+    };
 
-    return response.json(emails);
+    await sendEmail.execute(data);
+
+    const sendLog = container.resolve(SendLogService);
+
+    sendLog.execute(data);
+
+    return response.json(data);
   }
 }

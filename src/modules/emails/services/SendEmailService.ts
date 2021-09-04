@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe';
-import axios from 'axios';
 
 import path from 'path';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import ISendEmailDTO from '@modules/emails/dtos/ISendEmailDTO';
+import AppError from '@shared/errors/AppError';
 
 @injectable()
 class SendEmailService {
@@ -27,13 +27,13 @@ class SendEmailService {
       'default_template.hbs',
     );
 
-    this.mailProvider.sendMail({
+    const sent = await this.mailProvider.sendMail({
       subject,
       templateData: {
         file: defaultTemplate,
         variables: {
-          application,
-          created_by,
+          application: application || 'Localhost',
+          created_by: created_by || 'Me',
           body,
         },
       },
@@ -41,19 +41,9 @@ class SendEmailService {
       from,
     });
 
-    axios.post(process.env.URL_API_LOGME || '', {
-      type: 'SUCCESS',
-      application: 'PostMan',
-      description: 'Envio de e-mail',
-      created_by,
-      details: {
-        from,
-        to,
-        subject,
-        body,
-        application,
-      },
-    });
+    if (sent === false) {
+      throw new AppError('Houve um erro ao enviar o e-mail!');
+    }
   }
 }
 
